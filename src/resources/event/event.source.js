@@ -33,13 +33,13 @@ class EventAPI extends RESTDataSource {
   }
 
   async getEventByEventID({ eventID, datasetKey }) {
-    if (eventID == null || datasetKey == null){
-      throw new ApolloError('Please supply an eventID and datasetKey');
-    } else {
-      let response = await this.get(this.baseURL + '?q=id:' + eventID +" AND datasetKey:" + datasetKey)
+    if (eventID && datasetKey){
+      let response = await this.get(this.baseURL + '?q=id:' + eventID + " AND datasetKey:" + datasetKey)
       const event = response.hits.hits[0];
       if (event) return event;
       throw new ApolloError('That eventID and datasetKey combination does not exists');
+    } else {
+      throw new ApolloError('Please supply an eventID and datasetKey');
     }
   }
 }
