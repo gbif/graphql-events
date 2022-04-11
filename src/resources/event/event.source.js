@@ -11,12 +11,12 @@ For now it just use hardcoded data. This should instead contact the ElasticSearc
 class EventAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = config.esHost + '/event/_search';
+    this.baseURL = config.event.host + '/' + config.event.index + '/_search';
   }
 
   willSendRequest(request) {
-    if (config.esUsername != null && config.esPassword != null) {
-      let token = btoa(config.esUsername + ":" + config.esPassword)
+    if (config.event.username != null && config.event.password != null) {
+      let token = btoa(config.event.username + ":" + config.event.password)
       request.headers.set('Authorization', "Basic " + token);
     }
   }
