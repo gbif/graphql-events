@@ -12,11 +12,19 @@ const env = YAML.parse(file);
 const cliOptions = [
   { name: 'port', alias: 'p', type: Number },
   { name: 'debug', type: Boolean, defaultOption: false },
+  { name: 'esHost', type: String, defaultOption: false },
+  { name: 'esUsername', type: String, defaultOption: false },
+  { name: 'esPassword', type: String, defaultOption: false },
 ];
 const options = commandLineArgs(cliOptions);
 
 const config = _.merge(
-  { debug: false },
+  {
+    debug: false,
+    esHost: 'http://localhost:9200',
+    esUsername: null,
+    esPassword: null
+  },
   env,
   options,
 );

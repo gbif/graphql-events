@@ -9,7 +9,7 @@ const resolvers = _.merge(
   require('./resources/event').resolver,
 );
 
-// merge resolvers as suggeted in https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2
+// merge resolvers as suggested in https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2
 module.exports = {
   resolvers
 };

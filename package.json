@@ -1,7 +1,7 @@
 {
   "name": "graphql-events",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is currently just a stub to start a discussion between ALA and GBIF",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js"
@@ -31,5 +31,14 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "nodemon": "^2.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbif/graphql-events.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/gbif/graphql-events/issues"
+  },
+  "homepage": "https://github.com/gbif/graphql-events#readme"
 }

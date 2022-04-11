@@ -7,7 +7,7 @@ const typeDef = gql`
       offset: Int, 
       q: String
       ): EventSearchResults
-    event(key: ID!): Event
+    event(eventID: String, datasetKey: String): Event
   }
 
   type EventSearchResults {
@@ -18,12 +18,15 @@ const typeDef = gql`
   }
 
   type Event {
-    key: ID!
-    protocol: String
-    """
-    This is a field comment. And below is a special field. It isn't in the response, but use a custom resolver and a custom scalar.
-    """
-    mySpecialField: JSON
+    eventID: String
+    samplingProtocol: String
+    datasetKey: String
+    datasetTitle: String
+    parentEventID: String
+    country: String
+    countryCode: String
+    decimalLatitude: Float
+    decimalLongitude: Float    
   }
 `;
 

@@ -9,10 +9,18 @@ module.exports = {
   Query: {
     eventSearch: (parent, args, { dataSources }) =>
       dataSources.eventAPI.searchEvents({ query: args }),
-    event: (parent, { key }, { dataSources }) =>
-      dataSources.eventAPI.getEventByKey({ key })
+    event: (parent, { eventID, datasetKey }, { dataSources }) =>
+      dataSources.eventAPI.getEventByEventID({ eventID, datasetKey })
   },
   Event: {
-    mySpecialField: ({ key }) => ({verySpecial: `this is the key: ${key}`}),
+    eventID: ({ _id }) => ( _id),
+    parentEventID: ({ _source }) => ( _source.parentEventId),
+    samplingProtocol: ({ _source }) => ( _source.samplingProtocolJoined),
+    datasetKey: ({ _source }) => ( _source.datasetKey),
+    datasetTitle: ({ _source }) => ( _source.datasetTitle),
+    country: ({ _source }) => ( _source.country),
+    countryCode: ({ _source }) => ( _source.countryCode),
+    decimalLatitude: ({ _source }) => ( _source.coordinates.lat),
+    decimalLongitude: ({ _source }) => ( _source.coordinates.lon)
   }
 };
