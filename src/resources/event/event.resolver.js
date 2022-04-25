@@ -7,20 +7,33 @@
 */
 module.exports = {
   Query: {
-    eventSearch: (parent, args, { dataSources }) =>
-      dataSources.eventAPI.searchEvents({ query: args }),
+
     event: (parent, { eventID, datasetKey }, { dataSources }) =>
-      dataSources.eventAPI.getEventByEventID({ eventID, datasetKey })
+        dataSources.eventAPI.getEventByEventID({ eventID, datasetKey }),
+
+    eventSearch: (parent, args, { dataSources }) =>
+      dataSources.eventAPI.searchEvents({ query: args })
+
   },
   Event: {
-    eventID: ({ _id }) => ( _id),
-    parentEventID: ({ _source }) => ( _source.parentEventId),
-    samplingProtocol: ({ _source }) => ( _source.samplingProtocolJoined),
-    datasetKey: ({ _source }) => ( _source.datasetKey),
-    datasetTitle: ({ _source }) => ( _source.datasetTitle),
-    country: ({ _source }) => ( _source.country),
-    countryCode: ({ _source }) => ( _source.countryCode),
-    decimalLatitude: ({ _source }) => ( _source.coordinates.lat),
-    decimalLongitude: ({ _source }) => ( _source.coordinates.lon)
+    eventID:          (parent) => ( parent.event.id),
+    type:             (parent) => ( parent.event.type),
+    datasetKey:       (parent) => ( parent.event.metadata ? parent.event.metadata.datasetKey : null),
+    datasetTitle:     (parent) => ( parent.event.metadata ? parent.event.metadata.datasetTitle: null),
+
+    eventType:        (parent) => ( parent.event.event ? parent.event.event.eventType.concept : null),
+    parentEventID:    (parent) => ( parent.event.event ? parent.event.event.parentEventId : null),
+    samplingProtocol: (parent) => ( parent.event.event ? parent.event.event.samplingProtocolJoined : null),
+    stateProvince:    (parent) => ( parent.event.event ? parent.event.event.stateProvince : null),
+    country:          (parent) => ( parent.event.event ? parent.event.event.country : null),
+    countryCode:      (parent) => ( parent.event.event ? parent.event.event.countryCode : null),
+    year:             (parent) => ( parent.event.event ? parent.event.event.year : null),
+    month:            (parent) => ( parent.event.event ? parent.event.event.month : null),
+    day:              (parent) => ( parent.event.event ? parent.event.event.day : null),
+    eventDate:        (parent) => ( parent.event.event ? parent.event.event.eventDate : null),
+    decimalLatitude:  (parent) => ( parent.event.event ? parent.event.event.decimalLatitude: null),
+    decimalLongitude: (parent) => ( parent.event.event ? parent.event.event.decimalLongitude: null),
+    childEventCount:  (parent) => ( parent.childEventCount ? parent.childEventCount : null),
+    occurrenceCount:  (parent) => ( parent.occurrenceCount ? parent.occurrenceCount : null)
   }
 };

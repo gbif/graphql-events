@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.1.0",
     "abort-controller": "^3.0.0",
     "apollo-datasource-rest": "3.5.0",
     "apollo-server": "3.6.1",
@@ -23,6 +24,7 @@
     "graphql": "^16.0.0",
     "graphql-depth-limit": "^1.1.0",
     "graphql-scalars": "1.14.1",
+    "http-debug": "^0.1.2",
     "lru-cache": "^5.1.1",
     "node-cache": "^5.1.0",
     "object-hash": "^2.0.3",

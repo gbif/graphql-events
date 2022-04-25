@@ -17,6 +17,9 @@ const { hashMiddleware } = require('./hashMiddleware');
 // recommended in the apollo docs https://github.com/stems/graphql-depth-limit
 const depthLimit = require('graphql-depth-limit');
 
+var http = require('http-debug').http;
+http.debug = 2;
+
 // get the full schema of what types, enums, scalars and queries are available
 const { typeDefs } = require('./typeDefs');
 // define how to resolve the various types, fields and queries
@@ -31,6 +34,10 @@ const { EventAPI } = api;
 
 async function initializeServer() {
   const server = new ApolloServer({
+    cors: {
+      origin: '*',			// <- allow request from all domains
+      credentials: true
+    },
     debug: config.debug,
     context: async ({ req }) => {
       // Add express context and a listener for aborted connections. Then data sources have a chance to cancel resources
