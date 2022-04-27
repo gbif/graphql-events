@@ -34,6 +34,6 @@ module.exports = {
     decimalLatitude:  (parent) => ( parent.event.event ? parent.event.event.decimalLatitude: null),
     decimalLongitude: (parent) => ( parent.event.event ? parent.event.event.decimalLongitude: null),
     childEventCount:  (parent) => ( parent.childEventCount ? parent.childEventCount : null),
-    occurrenceCount:  (parent) => ( parent.occurrenceCount ? parent.occurrenceCount : null)
+    occurrenceCount:  (parent) => ( parent.event.event ? parent.event.event.occurrenceCount : null)
   }
 };

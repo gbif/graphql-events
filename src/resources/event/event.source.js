@@ -4,10 +4,11 @@ const { ApolloError } = require('apollo-server-errors')
 const config = require('../../config');
 
 const { Client } = require('@elastic/elasticsearch')
+
 const client = new Client({
   node: config.event.host,
   auth: {
-    username: config.event.username ,
+    username: config.event.username,
     password: config.event.password
   }
 })
@@ -25,42 +26,48 @@ class EventAPI extends RESTDataSource {
   }
 
   async searchEvents({ query = {} }) {
-    const { q, limit = 20, offset = 0 } = query;
-    // let query_string = q ? q + " AND type:event" : "type:event"
+
+    const { q, limit = 30, offset = 0 } = query;
+
     let query_string = q ? q : "*"
+
     const result = await client.search({
       index: config.event.index,
       from: offset < 1000 ? offset : 0,
       size: limit < 1000 ? limit : 30,
-      query: {
-        bool: {
-          must: [
-            {query_string: {
-              query: query_string
-            }}
-          ],
-          filter: [{
-            match: {"type": "event"}
-          }]
+      body: {
+        query: {
+          bool: {
+            must: [
+              {
+                query_string: {
+                  query: query_string
+                }
+              }
+            ],
+            filter: [{
+              match: {"type": "event"}
+            }]
+          }
         }
-      },
-      aggregations: {
-        samplingProtocol:
-          {
-            terms: { field: "event.samplingProtocol.keyword", size: 10 }
+        ,
+        aggregations: {
+          "Event type": {
+            terms: {field: "event.eventType.concept.keyword", size: 5}
           },
-        datasetTitle:
-            {
-              terms: { field: "datasetTitle", size: 10 }
-            },
-        eventType:
-            {
-              terms: { field: "event.eventType", size: 10 }
-            },
-        stateProvince:
-            {
-              terms: { field: "event.stateProvince.keyword", size: 10 }
-            }
+          "Sampling protocol": {
+            terms: {field: "event.samplingProtocol.keyword", size: 5}
+          },
+          "Dataset": {
+            terms: {field: "metadata.datasetTitle.keyword", size: 5}
+          },
+          "State / province": {
+            terms: {field: "event.stateProvince.keyword", size: 5}
+          },
+          "Has coordinates": {
+            terms: {field: "event.hasCoordinate", size: 5}
+          }
+        }
       }
     });
 
@@ -81,7 +88,7 @@ class EventAPI extends RESTDataSource {
 
         for (const bucket of aggregations[facetName].buckets) {
            let facetCount = {
-             name: bucket.key,
+             name: bucket.key_as_string ? bucket.key_as_string : bucket.key,
              count: bucket.doc_count
            }
            facet.counts.push(facetCount)
@@ -95,9 +102,9 @@ class EventAPI extends RESTDataSource {
     return {
       limit,
       offset,
-      results: result.hits.hits.map( x => resultCon(x._source) ),
-      count: result.hits.total.value,
-      facets: resultsAgg(result.aggregations)
+      results: result.body.hits.hits.map( x => resultCon(x._source) ),
+      count: result.body.hits.total.value,
+      facets: resultsAgg(result.body.aggregations)
     };
   }
 
@@ -137,12 +144,12 @@ class EventAPI extends RESTDataSource {
             bool: {
               must: [
                 {
-                  "match": {
+                  match: {
                     "event.parentEventId": eventID
                   }
                 },
                 {
-                  "match": {
+                  match: {
                     "metadata.datasetKey": datasetKey
                   }
                 }
@@ -167,25 +174,41 @@ class EventAPI extends RESTDataSource {
   }
 
 
-  async getOccurrenceCountForEventID({ eventID, datasetKey }) {
-    if (eventID && datasetKey){
-
-      const result = await client.search({
-        index:  config.event.index,
-        query: {
-          match: { id: eventID, datasetKey: datasetKey }
-        }
-      })
-
-      if (result) {
-        return result;
-      }
-      throw new ApolloError('That eventID and datasetKey combination does not exists');
-    } else {
-      throw new ApolloError('Please supply an eventID and datasetKey');
-    }
-  }
-
+  //  async getOccurrenceCounts(eventIDs) {
+  //
+  //   const occCountsResult = await client.search({
+  //     index: config.event.index,
+  //     size: 0,
+  //     query: {
+  //       bool: {
+  //         must: [
+  //           {
+  //             term: {
+  //               type: "occurrence"
+  //             }
+  //           }
+  //         ],
+  //         filter: {
+  //           terms: {
+  //             id: eventIDs
+  //           }
+  //         }
+  //       }
+  //     },
+  //     aggregations: {
+  //       eventType: {
+  //         terms: {
+  //           field: "id"
+  //         }
+  //       }
+  //     }
+  //   })
+  //
+  //    return {
+  //     "eventID1" : 213,
+  //     "eventID2" : 213
+  //    }
+  // }
 }
 
 module.exports = EventAPI;

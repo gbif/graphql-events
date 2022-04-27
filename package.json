@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@elastic/elasticsearch": "^8.1.0",
+    "@elastic/elasticsearch": "7.10.0",
     "abort-controller": "^3.0.0",
     "apollo-datasource-rest": "3.5.0",
     "apollo-server": "3.6.1",
