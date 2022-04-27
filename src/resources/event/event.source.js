@@ -59,7 +59,7 @@ class EventAPI extends RESTDataSource {
             terms: {field: "event.samplingProtocol.keyword", size: 5}
           },
           "Dataset": {
-            terms: {field: "metadata.datasetTitle.keyword", size: 5}
+            terms: {field: "metadata.datasetTitle", size: 5}
           },
           "State / province": {
             terms: {field: "event.stateProvince.keyword", size: 5}

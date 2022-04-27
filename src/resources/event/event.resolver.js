@@ -21,7 +21,7 @@ module.exports = {
     datasetKey:       (parent) => ( parent.event.metadata ? parent.event.metadata.datasetKey : null),
     datasetTitle:     (parent) => ( parent.event.metadata ? parent.event.metadata.datasetTitle: null),
 
-    eventType:        (parent) => ( parent.event.event ? parent.event.event.eventType : null),
+    eventType:        (parent) => ( parent.event.event ? parent.event.event.eventType.concept : null),
     parentEventID:    (parent) => ( parent.event.event ? parent.event.event.parentEventId : null),
     samplingProtocol: (parent) => ( parent.event.event ? parent.event.event.samplingProtocolJoined : null),
     stateProvince:    (parent) => ( parent.event.event ? parent.event.event.stateProvince : null),
