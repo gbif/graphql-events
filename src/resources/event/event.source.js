@@ -55,6 +55,9 @@ class EventAPI extends RESTDataSource {
           "Event type": {
             terms: {field: "event.eventType.concept.keyword", size: 5}
           },
+          "Measurements": {
+            terms: {field: "event.measurementOrFactTypes.keyword", size: 5}
+          },
           "Sampling protocol": {
             terms: {field: "event.samplingProtocol.keyword", size: 5}
           },
