@@ -50,10 +50,10 @@ const typeDef = gql`
     decimalLatitude: Float
     decimalLongitude: Float
     occurrenceCount: Int
-    childEventCount: Int        
+    childEventCount: Int
+    measurementOrFactTypes: [String]
+    measurementOrFactCount: Int            
   }
-
-  
 `;
 
 module.exports = typeDef;
