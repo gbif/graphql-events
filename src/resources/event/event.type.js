@@ -4,40 +4,44 @@ const typeDef = gql`
   extend type Query {
     
     eventSearch(
-      limit: Int, 
-      offset: Int, 
-      q: String
-      ): EventSearchResults
+      apiKey: String,
+      predicate: Predicate
+      size: Int
+      from: Int
+      ): EventSearchResult
       
     event(eventID: String, datasetKey: String): Event
   }
 
-  type EventSearchResults {
-    results: [Event]!
-    limit: Int!
-    offset: Int!
-    count: Int!
-    facets: [Facet]
+  type EventSearchResult {
+    """
+    The events that match the filter
+    """
+    documents(size: Int, from: Int): EventDocuments!
+    """
+    Get number of events per distinct values in a field. E.g. how many events per year.
+    """
+    facet: EventFacet
+    _predicate: JSON
+    _meta: JSON
   }
 
-  type Facet {
-    name: String!
-    counts: [FacetCount]
+  type EventDocuments {
+    size: Int!
+    from: Int!
+    total: Int!
+    results: [Event]!
   }
-  
-  type FacetCount {
-    name: String!
-    count: Int!
-  }  
 
   type Event {
-    eventID: String
+    eventId: String
     type:String
     eventType: String
     parentEventID: String    
     datasetKey: String
+    locality: String
     datasetTitle: String
-    samplingProtocol: String
+    samplingProtocol: [String]
     sampleSizeUnit: String
     sampleSizeValue: Int
     stateProvince: String
@@ -53,7 +57,16 @@ const typeDef = gql`
     childEventCount: Int        
   }
 
-  
+  type EventFacet {
+    locality(size: Int): [EventFacetResult_string]
+    samplingProtocol(size: Int): [EventFacetResult_string]
+  }
+
+  type EventFacetResult_string {
+    key: String!
+    count: Int!
+    _predicate: JSON
+  }
 `;
 
 module.exports = typeDef;

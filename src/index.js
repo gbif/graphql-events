@@ -14,11 +14,10 @@ const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-serve
 const AbortController = require('abort-controller');
 // custom middelware that allows querying by a registered hash
 const { hashMiddleware } = require('./hashMiddleware');
+// add query to playground based on IDs
+const { injectQuery } = require('./injectQueryMiddleware');
 // recommended in the apollo docs https://github.com/stems/graphql-depth-limit
 const depthLimit = require('graphql-depth-limit');
-
-var http = require('http-debug').http;
-http.debug = 2;
 
 // get the full schema of what types, enums, scalars and queries are available
 const { typeDefs } = require('./typeDefs');
@@ -55,7 +54,7 @@ async function initializeServer() {
     dataSources: () => ({
       eventAPI: new EventAPI()
     }),
-    validationRules: [depthLimit(3)], // this limit is likely higher than 3, but it might be better to increase it based on real usage
+    validationRules: [depthLimit(6)], // this limit is likely higher than 3, but it might be better to increase it based on real usage
     cacheControl: {
       defaultMaxAge: 600,
       scope: 'public',
@@ -74,6 +73,9 @@ async function initializeServer() {
 
   // extract query and variables from store if a hash is provided instead of a query or variable
   app.use(hashMiddleware);
+
+  // Add script tag to playground with linked query
+  app.use(injectQuery);
 
   await server.start();
   server.applyMiddleware({ app });

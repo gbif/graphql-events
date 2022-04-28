@@ -10,6 +10,7 @@ const rootQuery = gql`
 
 const typeDefs = [
   rootQuery,
+  require('./input'),
   require('./resources/event').typeDef,
   require('./resources/scalars').typeDef,
 ];
