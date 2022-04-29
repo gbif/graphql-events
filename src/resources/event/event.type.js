@@ -36,8 +36,8 @@ const typeDef = gql`
   type Event {
     eventId: String
     type:String
-    eventType: String
-    parentEventID: String    
+    eventType: EventType
+    parentEventId: String    
     datasetKey: String
     locality: String
     datasetTitle: String
@@ -54,12 +54,23 @@ const typeDef = gql`
     decimalLatitude: Float
     decimalLongitude: Float
     occurrenceCount: Int
-    childEventCount: Int        
+    childEventCount: Int  
+    coordinates: JSON
+    formattedCoordinates: String
+    measurementOrFactTypes: [String]
+    measurementOrFactCount: Int
+  }
+
+  type EventType {
+    concept: String
+    lineage: [String]
   }
 
   type EventFacet {
-    locality(size: Int): [EventFacetResult_string]
-    samplingProtocol(size: Int): [EventFacetResult_string]
+    locality(size: Int, include: String): [EventFacetResult_string]
+    samplingProtocol(size: Int, include: String): [EventFacetResult_string]
+    measurementOrFactTypes(size: Int, include: String): [EventFacetResult_string]
+    stateProvince(size: Int, include: String): [EventFacetResult_string]
   }
 
   type EventFacetResult_string {

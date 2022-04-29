@@ -1,4 +1,5 @@
 const { getFacet } = require('./helpers/getMetrics');
+const { formattedCoordinates } = require('./helpers/utils');
 const fieldsWithFacetSupport = require('./helpers/fieldsWithFacetSupport');
 
 // there are many fields that support facets. This function creates the resolvers for all of them
@@ -41,5 +42,10 @@ module.exports = {
       });
     }
   },
-  EventFacet
+  EventFacet,
+  Event: {
+    formattedCoordinates: ({ decimalLatitude, decimalLongitude }) => {
+      return formattedCoordinates({ lat: decimalLatitude, lon: decimalLongitude });
+    },
+  }
 };

@@ -25,11 +25,15 @@ class EventAPI extends RESTDataSource {
   async searchEvents({ query }) {
     const body = { ...query, includeMeta: true };
     let response;
+    console.log(JSON.stringify(body));
     if (JSON.stringify(body).length < urlSizeLimit) {
+      console.log('get request');
       response = await this.get('/event', { body: JSON.stringify(body) }, { signal: this.context.abortController.signal });
     } else {
+      console.log('post request');
       response = await this.post('/event', body, { signal: this.context.abortController.signal });
     }
+    console.log(response);
     // map to support APIv1 naming
     response.documents.count = response.documents.total;
     response.documents.limit = response.documents.size;

@@ -1,4 +1,6 @@
 module.exports = [
   'locality',
-  'samplingProtocol'
+  'samplingProtocol',
+  'measurementOrFactTypes',
+  'stateProvince',
 ];
