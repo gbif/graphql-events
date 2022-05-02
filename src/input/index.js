@@ -22,6 +22,7 @@ const typeDef = gql`
     fuzzy
     nested
     range
+    join
   }
 `;
 
