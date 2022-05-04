@@ -3,4 +3,5 @@ module.exports = [
   'samplingProtocol',
   'measurementOrFactTypes',
   'stateProvince',
+  'datasetKey',
 ];

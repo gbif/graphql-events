@@ -47,5 +47,14 @@ module.exports = {
     formattedCoordinates: ({ decimalLatitude, decimalLongitude }) => {
       return formattedCoordinates({ lat: decimalLatitude, lon: decimalLongitude });
     },
+  },
+  EventFacetResult_dataset: {
+    datasetTitle: ({ key }, args, { dataSources }) => {
+      if (typeof key === 'undefined') return null;
+      return dataSources.eventAPI.searchEventDocuments({ query: {datasetKey: key}, size: 1 })
+        .then(response => {
+          return response.results[0].datasetTitle
+        });
+    }
   }
 };

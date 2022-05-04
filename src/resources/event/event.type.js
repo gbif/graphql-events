@@ -71,11 +71,19 @@ const typeDef = gql`
     samplingProtocol(size: Int, include: String): [EventFacetResult_string]
     measurementOrFactTypes(size: Int, include: String): [EventFacetResult_string]
     stateProvince(size: Int, include: String): [EventFacetResult_string]
+    datasetKey(size: Int, include: String): [EventFacetResult_dataset]
   }
 
   type EventFacetResult_string {
     key: String!
     count: Int!
+    _predicate: JSON
+  }
+
+  type EventFacetResult_dataset {
+    key: String!
+    count: Int!
+    datasetTitle: String!
     _predicate: JSON
   }
 `;
