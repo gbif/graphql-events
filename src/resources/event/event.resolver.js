@@ -9,6 +9,10 @@ const facetReducer = (dictionary, facetName) => {
 };
 const EventFacet = fieldsWithFacetSupport.reduce(facetReducer, {});
 
+const facetEventSearch = (parent) => {
+  return { _predicate: parent._predicate };
+};
+
 /** 
  * fieldName: (parent, args, context, info) => data;
  * parent: An object that contains the result returned from the resolver on the parent type
@@ -55,6 +59,7 @@ module.exports = {
         .then(response => {
           return response.results[0].datasetTitle
         });
-    }
+    },
+    events: facetEventSearch
   }
 };

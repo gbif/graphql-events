@@ -84,6 +84,7 @@ const typeDef = gql`
     key: String!
     count: Int!
     datasetTitle: String!
+    events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
   }
 `;
