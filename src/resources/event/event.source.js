@@ -2,7 +2,7 @@ const { RESTDataSource } = require('apollo-datasource-rest');
 // load configuration based on .env file, cli arguments and default values.
 const config = require('../../config');
 
-const { apiEs, apiEsKey } = config;
+const { apiEs, apiEsKey, es2vt } = config;
 const urlSizeLimit = 2000; // use GET for requests that serialized is less than N characters
 
 
@@ -46,6 +46,23 @@ class EventAPI extends RESTDataSource {
     const body = { ...query };
     const response = await this.post('/event/meta', body);
     return response;
+  }
+
+  async registerPredicate({ predicate }) {
+    try {
+    const metaResponse = await this.meta({ query: {predicate} });
+    const query = metaResponse.query;
+    let response = await this.post(`${es2vt}/register`, {query: {query, grid_type: 'centroid'}}, { signal: this.context.abortController.signal });
+    return response.queryId;
+    } catch(err) {
+      console.log(err);
+      return {
+        err: {
+          error: 'FAILED_TO_REGISTER_PREDICATE'
+        },
+        predicate: null
+      }
+    }
   }
 }
 

@@ -27,6 +27,10 @@ const typeDef = gql`
     """
     stats: EventStats
     _predicate: JSON
+    """
+    Register the search predicate with the ES tile server
+    """
+    _tileServerToken: String,
     _meta: JSON
   }
 

@@ -30,10 +30,11 @@ const facetEventSearch = (parent) => {
 */
 module.exports = {
   Query: {
-    eventSearch: (parent, {predicate, ...params}) => {
+    eventSearch: (parent, {predicate, ...params}, { dataSources }) => {
       return {
         _predicate: predicate,
-        _params: params
+        _params: params,
+        _tileServerToken: dataSources.eventAPI.registerPredicate({predicate})
       };
     },
     event: (parent, { key }, { dataSources }) =>
