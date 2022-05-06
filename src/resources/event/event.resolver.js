@@ -1,6 +1,7 @@
-const { getFacet } = require('./helpers/getMetrics');
+const { getFacet, getStats } = require('./helpers/getMetrics');
 const { formattedCoordinates } = require('./helpers/utils');
 const fieldsWithFacetSupport = require('./helpers/fieldsWithFacetSupport');
+const fieldsWithStatsSupport = require('./helpers/fieldsWithStatsSupport');
 
 // there are many fields that support facets. This function creates the resolvers for all of them
 const facetReducer = (dictionary, facetName) => {
@@ -8,6 +9,13 @@ const facetReducer = (dictionary, facetName) => {
   return dictionary;
 };
 const EventFacet = fieldsWithFacetSupport.reduce(facetReducer, {});
+
+// there are also many fields that support stats. Generate them all.
+const statsReducer = (dictionary, statsName) => {
+  dictionary[statsName] = getStats(statsName);
+  return dictionary;
+};
+const EventStats = fieldsWithStatsSupport.reduce(statsReducer, {});
 
 const facetEventSearch = (parent) => {
   return { _predicate: parent._predicate };
@@ -40,6 +48,9 @@ module.exports = {
     facet: (parent) => {
       return { _predicate: parent._predicate };
     },
+    stats: (parent) => {
+      return { _predicate: parent._predicate };
+    },
     _meta: (parent, query, { dataSources }) => {
       return dataSources.eventAPI.meta({
         query: { predicate: parent._predicate }
@@ -47,6 +58,7 @@ module.exports = {
     }
   },
   EventFacet,
+  EventStats,
   Event: {
     formattedCoordinates: ({ decimalLatitude, decimalLongitude }) => {
       return formattedCoordinates({ lat: decimalLatitude, lon: decimalLongitude });

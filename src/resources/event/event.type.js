@@ -22,6 +22,10 @@ const typeDef = gql`
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
     facet: EventFacet
+    """
+    Get statistics for a numeric field. Minimimum value, maximum etc.
+    """
+    stats: EventStats
     _predicate: JSON
     _meta: JSON
   }
@@ -86,6 +90,18 @@ const typeDef = gql`
     datasetTitle: String!
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
+  }
+
+  type EventStats {
+    occurrenceCount: Stats!
+  }
+
+  type Stats {
+    count: Float!
+    min: Float
+    max: Float
+    avg: Float
+    sum: Float
   }
 `;
 
