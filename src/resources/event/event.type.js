@@ -17,7 +17,7 @@ const typeDef = gql`
     """
     The events that match the filter
     """
-    documents(size: Int, from: Int): EventDocuments!
+    documents(size: Int, from: Int, randomize: Boolean): EventDocuments!
     """
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
@@ -67,6 +67,7 @@ const typeDef = gql`
     formattedCoordinates: String
     measurementOrFactTypes: [String]
     measurementOrFactCount: Int
+    parentEvent: Event
   }
 
   type EventType {

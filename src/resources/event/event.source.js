@@ -38,8 +38,8 @@ class EventAPI extends RESTDataSource {
     return response;
   }
 
-  async getEventByKey({ key }) {
-    return this.get(`/event/key/${key}`);
+  async getEventByKey({ key, datasetKey }) {
+    return this.get(`/event/key/${datasetKey}/${key}`);
   }
 
   async meta({ query }) {
