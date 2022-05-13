@@ -38,8 +38,8 @@ class EventAPI extends RESTDataSource {
     return response;
   }
 
-  async getEventByKey({ key }) {
-    return this.get(`/event/key/${key}`);
+  async getEventByKey({ eventID, datasetKey }) {
+    return this.get(`/event/key/${datasetKey}/${eventID}`);
   }
 
   async meta({ query }) {
@@ -50,11 +50,11 @@ class EventAPI extends RESTDataSource {
 
   async registerPredicate({ predicate }) {
     try {
-    const metaResponse = await this.meta({ query: {predicate} });
-    const query = metaResponse.query;
-    let response = await this.post(`${es2vt}/register`, {query: {query, grid_type: 'centroid'}}, { signal: this.context.abortController.signal });
-    return response.queryId;
-    } catch(err) {
+      const metaResponse = await this.meta({ query: {predicate} });
+      const query = metaResponse.query;
+      let response = await this.post(`${es2vt}/register`, {query: {query, grid_type: 'centroid'}}, { signal: this.context.abortController.signal });
+      return response.queryId;
+    } catch (err) {
       console.log(err);
       return {
         err: {
