@@ -4,4 +4,5 @@ module.exports = [
   'measurementOrFactTypes',
   'stateProvince',
   'datasetKey',
+  'eventTypeHierarchyJoined',
 ];

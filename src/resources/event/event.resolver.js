@@ -78,5 +78,8 @@ module.exports = {
         });
     },
     events: facetEventSearch
+  },
+  EventFacetResult_string: {
+    events: facetEventSearch
   }
 };
