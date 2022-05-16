@@ -87,6 +87,16 @@ const typeDef = gql`
   }
 
   type EventFacet {
+    kingdoms(size: Int, include: String): [EventFacetResult_string]
+    phyla(size: Int, include: String): [EventFacetResult_string]
+    classes(size: Int, include: String): [EventFacetResult_string]
+    orders(size: Int, include: String): [EventFacetResult_string]
+    families(size: Int, include: String): [EventFacetResult_string]
+    genera(size: Int, include: String): [EventFacetResult_string]
+    eventHierarchyJoined(size: Int, include: String): [EventFacetResult_string]
+    eventHierarchy(size: Int, include: String): [EventFacetResult_string]
+    eventTypeHierarchyJoined(size: Int, include: String): [EventFacetResult_string]
+    eventTypeHierarchy(size: Int, include: String): [EventFacetResult_string]
     locality(size: Int, include: String): [EventFacetResult_string]
     samplingProtocol(size: Int, include: String): [EventFacetResult_string]
     measurementOrFactTypes(size: Int, include: String): [EventFacetResult_string]
