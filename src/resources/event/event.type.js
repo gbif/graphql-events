@@ -102,6 +102,7 @@ const typeDef = gql`
     measurementOrFactTypes(size: Int, include: String): [EventFacetResult_string]
     stateProvince(size: Int, include: String): [EventFacetResult_string]
     datasetKey(size: Int, include: String): [EventFacetResult_dataset]
+    measurementOfFactTypes(size: Int, include: String): [EventFacetResult_dataset]
   }
 
   type EventFacetResult_string {
