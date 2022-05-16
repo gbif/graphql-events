@@ -37,8 +37,8 @@ module.exports = {
         _tileServerToken: dataSources.eventAPI.registerPredicate({predicate})
       };
     },
-    event: (parent, { key }, { dataSources }) =>
-      dataSources.eventAPI.getEventByKey({ key }),
+    event: (parent, { eventID, datasetKey }, { dataSources }) =>
+      dataSources.eventAPI.getEventByKey({ eventID, datasetKey }),
   },
   EventSearchResult: {
     documents: (parent, query, { dataSources }) => {

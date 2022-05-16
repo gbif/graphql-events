@@ -18,11 +18,6 @@ const options = commandLineArgs(cliOptions);
 const config = _.merge(
   {
     debug: false,
-    event: {
-        host: 'http://localhost:9200',
-        esUsername: null,
-        esPassword: null
-    }
   },
   env,
   options,

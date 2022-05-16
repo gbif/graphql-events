@@ -68,6 +68,17 @@ const typeDef = gql`
     measurementOrFactTypes: [String]
     measurementOrFactCount: Int
     parentEvent: Event
+    kingdoms: [String]
+    phyla: [String]
+    orders: [String]
+    classes: [String]
+    families: [String]
+    genera: [String]
+    eventHierarchy: [String]
+    eventHierarchyJoined: String
+    eventTypeHierarchy: [String]    
+    eventTypeHierarchyJoined: String
+    eventHierarchyLevels: Int
   }
 
   type EventType {
