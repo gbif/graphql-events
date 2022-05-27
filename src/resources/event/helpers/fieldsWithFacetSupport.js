@@ -14,5 +14,6 @@ module.exports = [
   'eventTypeHierarchyJoined',
   'eventHierarchy',
   'eventHierarchyJoined',
-  'measurementOrFactTypes'
+  'measurementOrFactTypes',
+  'locationID'
 ];

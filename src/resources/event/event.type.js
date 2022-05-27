@@ -23,6 +23,10 @@ const typeDef = gql`
     """
     facet: EventFacet
     """
+    Get number of events per distinct values in a field. E.g. how many events per year.
+    """
+    temporal: EventTemporal    
+    """
     Get statistics for a numeric field. Minimimum value, maximum etc.
     """
     stats: EventStats
@@ -79,6 +83,7 @@ const typeDef = gql`
     eventTypeHierarchy: [String]    
     eventTypeHierarchyJoined: String
     eventHierarchyLevels: Int
+    locationID: String
   }
 
   type EventType {
@@ -103,13 +108,42 @@ const typeDef = gql`
     stateProvince(size: Int, include: String): [EventFacetResult_string]
     datasetKey(size: Int, include: String): [EventFacetResult_dataset]
     measurementOfFactTypes(size: Int, include: String): [EventFacetResult_dataset]
+    locationID(size: Int, include: String): [EventFacetResult_string]
+    year(size: Int, include: String): [EventFacetResult_string]
+    month(size: Int, include: String): [EventFacetResult_string]
   }
+  
+  type EventTemporal {
+    datasetKey(size: Int, include: String): [EventTemporalResult_string]
+    locationID(size: Int, include: String): [EventTemporalResult_string]
+  }  
 
   type EventFacetResult_string {
     key: String!
     count: Int!
+    facet: EventFacet
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
+  }
+
+  type EventTemporalResult_string {
+    key: String!
+    count: Int! 
+    breakdown: [YearBreakdown]  
+    temporal: EventTemporal
+    events(size: Int, from: Int): EventSearchResult!
+    _predicate: JSON    
+  }
+
+  type YearBreakdown {
+    y: Int!
+    c: Int!
+    ms: [MonthBreakdown]
+  }
+
+  type MonthBreakdown {
+    m: Int!
+    c: Int!
   }
 
   type EventFacetResult_dataset {

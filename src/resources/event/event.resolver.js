@@ -1,5 +1,6 @@
-const { getFacet, getStats } = require('./helpers/getMetrics');
+const { getFacet, getStats, getTemporal } = require('./helpers/getMetrics');
 const { formattedCoordinates } = require('./helpers/utils');
+const fieldsWithTemporalSupport = require('./helpers/fieldsWithTemporalSupport');
 const fieldsWithFacetSupport = require('./helpers/fieldsWithFacetSupport');
 const fieldsWithStatsSupport = require('./helpers/fieldsWithStatsSupport');
 
@@ -8,7 +9,15 @@ const facetReducer = (dictionary, facetName) => {
   dictionary[facetName] = getFacet(facetName);
   return dictionary;
 };
+
 const EventFacet = fieldsWithFacetSupport.reduce(facetReducer, {});
+
+const temporalReducer = (dictionary, facetName) => {
+  dictionary[facetName] = getTemporal(facetName);
+  return dictionary;
+};
+
+const EventTemporal =  fieldsWithTemporalSupport.reduce(temporalReducer, {});
 
 // there are also many fields that support stats. Generate them all.
 const statsReducer = (dictionary, statsName) => {
@@ -18,6 +27,10 @@ const statsReducer = (dictionary, statsName) => {
 const EventStats = fieldsWithStatsSupport.reduce(statsReducer, {});
 
 const facetEventSearch = (parent) => {
+  return { _predicate: parent._predicate };
+};
+
+const temporalEventSearch = (parent) => {
   return { _predicate: parent._predicate };
 };
 
@@ -49,6 +62,9 @@ module.exports = {
     facet: (parent) => {
       return { _predicate: parent._predicate };
     },
+    temporal: (parent) => {
+      return { _predicate: parent._predicate };
+    },
     stats: (parent) => {
       return { _predicate: parent._predicate };
     },
@@ -60,6 +76,7 @@ module.exports = {
   },
   EventFacet,
   EventStats,
+  EventTemporal,
   Event: {
     formattedCoordinates: ({ decimalLatitude, decimalLongitude }) => {
       return formattedCoordinates({ lat: decimalLatitude, lon: decimalLongitude });
@@ -81,5 +98,9 @@ module.exports = {
   },
   EventFacetResult_string: {
     events: facetEventSearch
+  },
+  EventTemporalResult_string: {
+    events: temporalEventSearch
   }
+
 };
