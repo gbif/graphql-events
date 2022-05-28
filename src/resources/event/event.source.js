@@ -42,6 +42,12 @@ class EventAPI extends RESTDataSource {
     return this.get(`/event/key/${datasetKey}/${eventID}`);
   }
 
+  async getLocation({ locationID }){
+    let query = JSON.stringify({locationID: locationID})
+    let response = await this.get('/event', { body: query }, { signal: this.context.abortController.signal });
+    return response.documents.results[0];
+  }
+
   async meta({ query }) {
     const body = { ...query };
     const response = await this.post('/event/meta', body);

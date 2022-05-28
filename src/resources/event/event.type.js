@@ -11,6 +11,8 @@ const typeDef = gql`
       ): EventSearchResult
       
     event(eventID: String, datasetKey: String): Event
+    
+    location(locationID: String): Event
   }
 
   type EventSearchResult {

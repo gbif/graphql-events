@@ -52,6 +52,8 @@ module.exports = {
     },
     event: (parent, { eventID, datasetKey }, { dataSources }) =>
       dataSources.eventAPI.getEventByKey({ eventID, datasetKey }),
+    location: (parent, { locationID }, { dataSources }) =>
+        dataSources.eventAPI.getLocation({ locationID })
   },
   EventSearchResult: {
     documents: (parent, query, { dataSources }) => {
