@@ -116,9 +116,14 @@ const typeDef = gql`
   }
   
   type EventTemporal {
-    datasetKey(size: Int, include: String): [EventTemporalResult_string]
-    locationID(size: Int, include: String): [EventTemporalResult_string]
+    datasetKey(size: Int, include: String): EventTemporalCardinalityResult
+    locationID(size: Int, include: String): EventTemporalCardinalityResult
   }  
+  
+  type EventTemporalCardinalityResult {
+    cardinality: Int!
+    results: [EventTemporalResult_string]
+  }    
 
   type EventFacetResult_string {
     key: String!

@@ -52,7 +52,7 @@ const getFacet = (field) =>
  * @param {String} field
  */
 const getTemporal = (field) =>
-    (parent, { size = 10, include }, { dataSources }) => {
+    (parent, { size = 30, include }, { dataSources }) => {
         // generate the event search facet query, by inherting from the parent query, and map limit/offset to facet equivalents
         const query = {
             predicate: parent._predicate,
@@ -63,47 +63,54 @@ const getTemporal = (field) =>
                     key: field,
                     size: size,
                     include: include
+                },
+                cardinality: {
+                    type: 'cardinality',
+                    key: field
                 }
             }
         };
         // query the API, and throw away anything but the facet counts
-        return dataSources.eventAPI.searchEvents({ query })
+        return dataSources.eventAPI.searchEvents({query})
             .then(data => {
-                return data.aggregations
-                    .facet
-                    .buckets.map(bucket => {
-                        const predicate = {
-                            type: 'equals',
-                            key: field,
-                            value: bucket.key
-                        };
-                        const joinedPredicate = data.meta.predicate ?
-                            {
-                                type: 'and',
-                                predicates: [data.meta.predicate, predicate]
-                            } :
-                            predicate;
+                return {
+                    cardinality: data.aggregations.cardinality.value,
+                    results: data.aggregations
+                        .facet
+                        .buckets.map(bucket => {
+                            const predicate = {
+                                type: 'equals',
+                                key: field,
+                                value: bucket.key
+                            };
+                            const joinedPredicate = data.meta.predicate ?
+                                {
+                                    type: 'and',
+                                    predicates: [data.meta.predicate, predicate]
+                                } :
+                                predicate;
 
-                        let years = bucket.year_facet.buckets.map(obj => (
-                            {
-                                y: obj.key,
-                                c: obj.doc_count,
-                                ms: obj.month_facet.buckets.map( monthBucket => ({
-                                    m: monthBucket.key,
-                                    c: monthBucket.doc_count
-                                }))
-                            }
-                        ));
+                            let years = bucket.year_facet.buckets.map(obj => (
+                                {
+                                    y: obj.key,
+                                    c: obj.doc_count,
+                                    ms: obj.month_facet.buckets.map(monthBucket => ({
+                                        m: monthBucket.key,
+                                        c: monthBucket.doc_count
+                                    }))
+                                }
+                            ));
 
-                        return {
-                            key: bucket.key,
-                            count: bucket.doc_count,
-                            breakdown: years,
-                            // create a new predicate that joins the base with the facet. This enables us to dig deeper for multidimensional metrics
-                            _predicate: joinedPredicate,
-                            _parentPredicate: data.meta.predicate
-                        };
-                    });
+                            return {
+                                key: bucket.key,
+                                count: bucket.doc_count,
+                                breakdown: years,
+                                // create a new predicate that joins the base with the facet. This enables us to dig deeper for multidimensional metrics
+                                _predicate: joinedPredicate,
+                                _parentPredicate: data.meta.predicate
+                            };
+                        })
+                };
             });
     }
 
