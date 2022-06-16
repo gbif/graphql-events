@@ -48,10 +48,10 @@ const typeDef = gql`
   }
 
   type Event {
-    eventId: String
+    eventID: String
     type:String
     eventType: EventType
-    parentEventId: String    
+    parentEventID: String    
     datasetKey: String
     locality: String
     datasetTitle: String

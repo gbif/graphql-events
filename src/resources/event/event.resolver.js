@@ -83,7 +83,7 @@ module.exports = {
     formattedCoordinates: ({ decimalLatitude, decimalLongitude }) => {
       return formattedCoordinates({ lat: decimalLatitude, lon: decimalLongitude });
     },
-    parentEvent: ({ datasetKey, parentEventId: key }, query, { dataSources }) => {
+    parentEvent: ({ datasetKey, parentEventID: key }, query, { dataSources }) => {
       if (typeof key === 'undefined' || key === null) return null;
       return dataSources.eventAPI.getEventByKey({ key, datasetKey });
     },
