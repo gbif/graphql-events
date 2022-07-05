@@ -10,6 +10,9 @@ const typeDef = gql`
       from: Int
       ): EventSearchResult
       
+    eventsByDataset(
+      datasetKey: String): EventSearchResult      
+      
     event(eventID: String, datasetKey: String): Event
     
     location(locationID: String): Event
@@ -157,6 +160,7 @@ const typeDef = gql`
     key: String!
     count: Int!
     datasetTitle: String!
+    archive: DataArchive  
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
   }
@@ -164,6 +168,12 @@ const typeDef = gql`
   type EventStats {
     occurrenceCount: Stats!
   }
+  
+  type DataArchive {
+    url: String
+    fileSizeInMB: Float
+    modified: String   
+  }  
 
   type Stats {
     count: Float!

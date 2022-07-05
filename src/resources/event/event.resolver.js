@@ -52,6 +52,8 @@ module.exports = {
     },
     event: (parent, { eventID, datasetKey }, { dataSources }) =>
       dataSources.eventAPI.getEventByKey({ eventID, datasetKey }),
+    eventsByDataset: (parent, { datasetKey }, { dataSources }) =>
+        dataSources.eventAPI.getEventsByDatasetKey({ datasetKey }),
     location: (parent, { locationID }, { dataSources }) =>
         dataSources.eventAPI.getLocation({ locationID })
   },
@@ -96,7 +98,10 @@ module.exports = {
           return response.results[0].datasetTitle
         });
     },
-    events: facetEventSearch
+    events: facetEventSearch,
+    archive: ({ key }, args, { dataSources }) => {
+      return dataSources.eventAPI.getArchive( key)
+    }
   },
   EventFacetResult_string: {
     events: facetEventSearch
@@ -104,5 +109,4 @@ module.exports = {
   EventTemporalResult_string: {
     events: temporalEventSearch
   }
-
 };

@@ -22,6 +22,21 @@ class EventAPI extends RESTDataSource {
     return response.documents;
   }
 
+  async getArchive(datasetKey){
+    try {
+      let response = await this.get('https://0xqgr7u0bh.execute-api.ap-southeast-2.amazonaws.com/event/dataset/' + datasetKey, {signal: this.context.abortController.signal});
+      // map to support APIv1 naming
+      return response;
+    } catch (err) {
+      console.log(err);
+      return {
+        url: null,
+        fileSizeInMB: null,
+        modified: null
+      }
+    }
+  }
+
   async searchEvents({ query }) {
     const body = { ...query, includeMeta: true };
     let response;
@@ -40,6 +55,11 @@ class EventAPI extends RESTDataSource {
 
   async getEventByKey({ eventID, datasetKey }) {
     return this.get(`/event/key/${datasetKey}/${eventID}`);
+  }
+
+  async getEventsByDatasetKey({ datasetKey }) {
+    let response = this.get(`/event?datasetKey=${datasetKey}`);
+    return response;
   }
 
   async getLocation({ locationID }){
