@@ -10,8 +10,7 @@ const typeDef = gql`
       from: Int
       ): EventSearchResult
       
-    eventsByDataset(
-      datasetKey: String): EventSearchResult      
+    eventsByDataset(datasetKey: String): EventSearchResult      
       
     event(eventID: String, datasetKey: String): Event
     
@@ -27,6 +26,14 @@ const typeDef = gql`
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
     facet: EventFacet
+    """
+    Get number of occurrences per distinct values in a field. E.g. how many events per year.
+    """    
+    occurrenceFacet: OccurrenceFacet
+    """
+    Get number of occurrences for the event.
+    """        
+    occurrenceCount: Int
     """
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
@@ -118,6 +125,20 @@ const typeDef = gql`
     month(size: Int, include: String): [EventFacetResult_string]
   }
   
+  type OccurrenceFacet {
+    datasetKey(size: Int, include: String): [OccurrenceFacetResult_string]
+    kingdom(size: Int, include: String): [OccurrenceFacetResult_string]
+    phylum(size: Int, include: String): [OccurrenceFacetResult_string]
+    class(size: Int, include: String): [OccurrenceFacetResult_string]
+    order(size: Int, include: String): [OccurrenceFacetResult_string]
+    family(size: Int, include: String): [OccurrenceFacetResult_string]
+    genus(size: Int, include: String): [OccurrenceFacetResult_string]
+    samplingProtocol(size: Int, include: String): [OccurrenceFacetResult_string]
+    locationID(size: Int, include: String): [OccurrenceFacetResult_string]
+    basisOfRecord(size: Int, include: String): [OccurrenceFacetResult_string]
+    stateProvince(size: Int, include: String): [OccurrenceFacetResult_string]
+  }  
+  
   type EventTemporal {
     datasetKey(size: Int, include: String): EventTemporalCardinalityResult
     locationID(size: Int, include: String): EventTemporalCardinalityResult
@@ -135,6 +156,13 @@ const typeDef = gql`
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
   }
+  
+  type OccurrenceFacetResult_string {
+    key: String!
+    count: Int!
+    facet: OccurrenceFacet
+    _predicate: JSON
+  }  
 
   type EventTemporalResult_string {
     key: String!
@@ -159,6 +187,7 @@ const typeDef = gql`
   type EventFacetResult_dataset {
     key: String!
     count: Int!
+    occurrenceCount: Int
     datasetTitle: String!
     archive: DataArchive  
     events(size: Int, from: Int): EventSearchResult!
