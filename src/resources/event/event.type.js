@@ -10,8 +10,7 @@ const typeDef = gql`
       from: Int
       ): EventSearchResult
       
-    eventsByDataset(
-      datasetKey: String): EventSearchResult      
+    eventsByDataset(datasetKey: String): EventSearchResult      
       
     event(eventID: String, datasetKey: String): Event
     
@@ -27,6 +26,14 @@ const typeDef = gql`
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
     facet: EventFacet
+    """
+    Get number of occurrences per distinct values in a field. E.g. how many occurrence per year.
+    """    
+    occurrenceFacet: OccurrenceFacet
+    """
+    Get number of occurrences matching this search
+    """        
+    occurrenceCount: Int
     """
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
@@ -103,7 +110,6 @@ const typeDef = gql`
     orders(size: Int, include: String): [EventFacetResult_string]
     families(size: Int, include: String): [EventFacetResult_string]
     genera(size: Int, include: String): [EventFacetResult_string]
-
     eventHierarchyJoined(size: Int, include: String): [EventFacetResult_string]
     eventHierarchy(size: Int, include: String): [EventFacetResult_string]
     eventTypeHierarchyJoined(size: Int, include: String): [EventFacetResult_string]
@@ -114,11 +120,24 @@ const typeDef = gql`
     stateProvince(size: Int, include: String): [EventFacetResult_string]
     datasetKey(size: Int, include: String): [EventFacetResult_dataset]
     measurementOfFactTypes(size: Int, include: String): [EventFacetResult_dataset]
-    locationID(size: Int): [EventFacetResult_string]
-    
-    year(size: Int): [EventFacetResult_float]
-    month(size: Int): [EventFacetResult_float]
+    locationID(size: Int, include: String): [EventFacetResult_string]
+    year(size: Int, include: String): [EventFacetResult_string]
+    month(size: Int, include: String): [EventFacetResult_string]
   }
+  
+  type OccurrenceFacet {
+    datasetKey(size: Int, include: String): [OccurrenceFacetResult_string]
+    kingdom(size: Int, include: String): [OccurrenceFacetResult_string]
+    phylum(size: Int, include: String): [OccurrenceFacetResult_string]
+    class(size: Int, include: String): [OccurrenceFacetResult_string]
+    order(size: Int, include: String): [OccurrenceFacetResult_string]
+    family(size: Int, include: String): [OccurrenceFacetResult_string]
+    genus(size: Int, include: String): [OccurrenceFacetResult_string]
+    samplingProtocol(size: Int, include: String): [OccurrenceFacetResult_string]
+    locationID(size: Int, include: String): [OccurrenceFacetResult_string]
+    basisOfRecord(size: Int, include: String): [OccurrenceFacetResult_string]
+    stateProvince(size: Int, include: String): [OccurrenceFacetResult_string]
+  }  
   
   type EventTemporal {
     datasetKey(size: Int, include: String): EventTemporalCardinalityResult
@@ -133,16 +152,17 @@ const typeDef = gql`
   type EventFacetResult_string {
     key: String!
     count: Int!
+    facet: EventFacet
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
   }
-
-  type EventFacetResult_float {
-    key: Float!
+  
+  type OccurrenceFacetResult_string {
+    key: String!
     count: Int!
-    events(size: Int, from: Int): EventSearchResult!
+    facet: OccurrenceFacet
     _predicate: JSON
-  }
+  }  
 
   type EventTemporalResult_string {
     key: String!
@@ -167,6 +187,7 @@ const typeDef = gql`
   type EventFacetResult_dataset {
     key: String!
     count: Int!
+    occurrenceCount: Int
     datasetTitle: String!
     archive: DataArchive  
     events(size: Int, from: Int): EventSearchResult!

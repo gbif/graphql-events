@@ -22,6 +22,11 @@ class EventAPI extends RESTDataSource {
     return response.documents;
   }
 
+  async searchOccurrenceDocuments({ query }) {
+    const response = await this. searchOccurrences({ query })
+    return response.documents;
+  }
+
   async getArchive(datasetKey){
     try {
       let response = await this.get('https://0xqgr7u0bh.execute-api.ap-southeast-2.amazonaws.com/event/dataset/' + datasetKey, {signal: this.context.abortController.signal});
@@ -53,12 +58,29 @@ class EventAPI extends RESTDataSource {
     return response;
   }
 
+  async searchOccurrences({ query }) {
+    const body = { ...query, includeMeta: true };
+    let response;
+    if (JSON.stringify(body).length < urlSizeLimit) {
+      response = await this.get('/occurrence', { body: JSON.stringify(body) }, { signal: this.context.abortController.signal });
+    } else {
+      response = await this.post('/occurrence', body, { signal: this.context.abortController.signal });
+    }
+    // map to support APIv1 naming
+    response.documents.count = response.documents.total;
+    response.documents.limit = response.documents.size;
+    response.documents.offset = response.documents.from;
+    response._predicate = body.predicate;
+    return response;
+  }
+
   async getEventByKey({ eventID, datasetKey }) {
     return this.get(`/event/key/${datasetKey}/${eventID}`);
   }
 
   async getEventsByDatasetKey({ datasetKey }) {
-    let response = this.get(`/event?datasetKey=${datasetKey}`);
+    let query = JSON.stringify({datasetKey: datasetKey})
+    let response = await this.get('/event', { body: query }, { signal: this.context.abortController.signal });
     return response;
   }
 

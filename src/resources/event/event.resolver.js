@@ -1,7 +1,8 @@
-const { getFacet, getStats, getTemporal } = require('./helpers/getMetrics');
+const { getFacet, getStats, getTemporal, getOccurrenceFacet } = require('./helpers/getMetrics');
 const { formattedCoordinates } = require('./helpers/utils');
 const fieldsWithTemporalSupport = require('./helpers/fieldsWithTemporalSupport');
 const fieldsWithFacetSupport = require('./helpers/fieldsWithFacetSupport');
+const fieldsWithOccurrenceFacetSupport = require('./helpers/fieldsWithOccurrenceFacetSupport');
 const fieldsWithStatsSupport = require('./helpers/fieldsWithStatsSupport');
 
 // there are many fields that support facets. This function creates the resolvers for all of them
@@ -10,7 +11,14 @@ const facetReducer = (dictionary, facetName) => {
   return dictionary;
 };
 
+const occurrenceFacetReducer = (dictionary, facetName) => {
+  dictionary[facetName] = getOccurrenceFacet(facetName);
+  return dictionary;
+};
+
 const EventFacet = fieldsWithFacetSupport.reduce(facetReducer, {});
+
+const OccurrenceFacet = fieldsWithOccurrenceFacetSupport.reduce(occurrenceFacetReducer, {});
 
 const temporalReducer = (dictionary, facetName) => {
   dictionary[facetName] = getTemporal(facetName);
@@ -63,6 +71,16 @@ module.exports = {
         query: { predicate: parent._predicate, ...parent._params, ...query }
       });
     },
+    occurrenceCount: (parent, query, { dataSources }) => {
+      if (typeof query === 'undefined') return null;
+      return dataSources.eventAPI.searchOccurrenceDocuments({ query: query, size: 1 })
+          .then(response => {
+            return response.total;
+          });
+    },
+    occurrenceFacet: (parent) => {
+      return { _predicate: parent._predicate };
+    },
     facet: (parent) => {
       return { _predicate: parent._predicate };
     },
@@ -79,6 +97,7 @@ module.exports = {
     }
   },
   EventFacet,
+  OccurrenceFacet,
   EventStats,
   EventTemporal,
   Event: {
@@ -98,15 +117,19 @@ module.exports = {
           return response.results[0].datasetTitle
         });
     },
+    occurrenceCount: ({ key }, args, { dataSources }) => {
+      if (typeof key === 'undefined') return null;
+      return dataSources.eventAPI.searchOccurrenceDocuments({ query: {datasetKey: key}, size: 1 })
+          .then(response => {
+            return response.total;
+          });
+    },
     events: facetEventSearch,
     archive: ({ key }, args, { dataSources }) => {
       return dataSources.eventAPI.getArchive( key)
     }
   },
   EventFacetResult_string: {
-    events: facetEventSearch
-  },
-  EventFacetResult_float: {
     events: facetEventSearch
   },
   EventTemporalResult_string: {

@@ -24,3 +24,4 @@ yarn-error.log*
 tsconfig.tsbuildinfo
 /graphql-events.iml
 .idea/
+/src/graphql-events.iml
