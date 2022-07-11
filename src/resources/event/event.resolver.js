@@ -38,10 +38,6 @@ const facetEventSearch = (parent) => {
   return { _predicate: parent._predicate };
 };
 
-const facetOccurrenceSearch = (parent) => {
-  return { _predicate: parent._predicate };
-};
-
 const temporalEventSearch = (parent) => {
   return { _predicate: parent._predicate };
 };
