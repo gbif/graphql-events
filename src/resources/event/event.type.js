@@ -10,7 +10,8 @@ const typeDef = gql`
       from: Int
       ): EventSearchResult
       
-    eventsByDataset(datasetKey: String): EventSearchResult      
+    eventsByDataset(
+      datasetKey: String): EventSearchResult      
       
     event(eventID: String, datasetKey: String): Event
     
@@ -121,8 +122,8 @@ const typeDef = gql`
     datasetKey(size: Int, include: String): [EventFacetResult_dataset]
     measurementOfFactTypes(size: Int, include: String): [EventFacetResult_dataset]
     locationID(size: Int, include: String): [EventFacetResult_string]
-    year(size: Int, include: String): [EventFacetResult_string]
-    month(size: Int, include: String): [EventFacetResult_string]
+    year(size: Int): [EventFacetResult_float]
+    month(size: Int): [EventFacetResult_float]
   }
   
   type OccurrenceFacet {
@@ -163,6 +164,13 @@ const typeDef = gql`
     facet: OccurrenceFacet
     _predicate: JSON
   }  
+  
+  type EventFacetResult_float {
+    key: Float!
+    count: Int!
+    events(size: Int, from: Int): EventSearchResult!
+    _predicate: JSON
+  }
 
   type EventTemporalResult_string {
     key: String!
