@@ -54,7 +54,7 @@ async function initializeServer() {
     dataSources: () => ({
       eventAPI: new EventAPI()
     }),
-    validationRules: [depthLimit(7)], // this limit is likely higher than 3, but it might be better to increase it based on real usage
+    validationRules: [depthLimit(9)], // this limit is likely higher than 3, but it might be better to increase it based on real usage
     cacheControl: {
       defaultMaxAge: 600,
       scope: 'public',

@@ -103,6 +103,7 @@ const typeDef = gql`
     orders(size: Int, include: String): [EventFacetResult_string]
     families(size: Int, include: String): [EventFacetResult_string]
     genera(size: Int, include: String): [EventFacetResult_string]
+
     eventHierarchyJoined(size: Int, include: String): [EventFacetResult_string]
     eventHierarchy(size: Int, include: String): [EventFacetResult_string]
     eventTypeHierarchyJoined(size: Int, include: String): [EventFacetResult_string]
@@ -113,9 +114,10 @@ const typeDef = gql`
     stateProvince(size: Int, include: String): [EventFacetResult_string]
     datasetKey(size: Int, include: String): [EventFacetResult_dataset]
     measurementOfFactTypes(size: Int, include: String): [EventFacetResult_dataset]
-    locationID(size: Int, include: String): [EventFacetResult_string]
-    year(size: Int, include: String): [EventFacetResult_string]
-    month(size: Int, include: String): [EventFacetResult_string]
+    locationID(size: Int): [EventFacetResult_string]
+    
+    year(size: Int): [EventFacetResult_float]
+    month(size: Int): [EventFacetResult_float]
   }
   
   type EventTemporal {
@@ -131,7 +133,13 @@ const typeDef = gql`
   type EventFacetResult_string {
     key: String!
     count: Int!
-    facet: EventFacet
+    events(size: Int, from: Int): EventSearchResult!
+    _predicate: JSON
+  }
+
+  type EventFacetResult_float {
+    key: Float!
+    count: Int!
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
   }

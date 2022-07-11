@@ -106,6 +106,9 @@ module.exports = {
   EventFacetResult_string: {
     events: facetEventSearch
   },
+  EventFacetResult_float: {
+    events: facetEventSearch
+  },
   EventTemporalResult_string: {
     events: temporalEventSearch
   }
