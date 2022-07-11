@@ -153,7 +153,6 @@ const typeDef = gql`
   type EventFacetResult_string {
     key: String!
     count: Int!
-    facet: EventFacet
     events(size: Int, from: Int): EventSearchResult!
     _predicate: JSON
   }
