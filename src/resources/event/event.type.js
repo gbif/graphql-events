@@ -162,7 +162,6 @@ const typeDef = gql`
   type OccurrenceFacetResult_string {
     key: String!
     count: Int!
-    facet: OccurrenceFacet
     _predicate: JSON
   }  
   
