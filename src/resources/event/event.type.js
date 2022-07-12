@@ -10,9 +10,6 @@ const typeDef = gql`
       from: Int
       ): EventSearchResult
       
-    eventsByDataset(
-      datasetKey: String): EventSearchResult      
-      
     event(eventID: String, datasetKey: String): Event
     
     location(locationID: String): Event
@@ -40,7 +37,7 @@ const typeDef = gql`
     """
     temporal: EventTemporal    
     """
-    Get statistics for a numeric field. Minimimum value, maximum etc.
+    Get statistics for a numeric field. Minimimum value etc.
     """
     stats: EventStats
     _predicate: JSON

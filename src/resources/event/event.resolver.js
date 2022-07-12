@@ -60,8 +60,6 @@ module.exports = {
     },
     event: (parent, { eventID, datasetKey }, { dataSources }) =>
       dataSources.eventAPI.getEventByKey({ eventID, datasetKey }),
-    eventsByDataset: (parent, { datasetKey }, { dataSources }) =>
-        dataSources.eventAPI.getEventsByDatasetKey({ datasetKey }),
     location: (parent, { locationID }, { dataSources }) =>
         dataSources.eventAPI.getLocation({ locationID })
   },
