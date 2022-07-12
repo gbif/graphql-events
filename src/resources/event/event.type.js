@@ -119,10 +119,10 @@ const typeDef = gql`
     stateProvince(size: Int, include: String): [EventFacetResult_string]
     datasetKey(size: Int, include: String): [EventFacetResult_dataset]
     measurementOfFactTypes(size: Int, include: String): [EventFacetResult_dataset]
-    locationID(size: Int): [EventFacetResult_string]
+    locationID(size: Int, from: Int): [EventFacetResult_string]
     
-    year(size: Int): [EventFacetResult_float]
-    month(size: Int): [EventFacetResult_float]
+    year(size: Int, from: Int): [EventFacetResult_float]
+    month(size: Int, from: Int): [EventFacetResult_float]
   }
   
   type OccurrenceFacet {
