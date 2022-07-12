@@ -9,5 +9,7 @@ module.exports = [
   'family',
   'genus',
   'locationID',
-  'basisOfRecord'
+  'basisOfRecord',
+  'recordedById',
+  'recordedBy'
 ];

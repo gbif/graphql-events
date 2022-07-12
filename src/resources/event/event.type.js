@@ -137,6 +137,8 @@ const typeDef = gql`
     locationID(size: Int, include: String): [OccurrenceFacetResult_string]
     basisOfRecord(size: Int, include: String): [OccurrenceFacetResult_string]
     stateProvince(size: Int, include: String): [OccurrenceFacetResult_string]
+    recordedBy(size: Int, include: String): [OccurrenceFacetResult_string]
+    recordedById(size: Int, include: String): [OccurrenceFacetResult_string]
   }  
   
   type EventTemporal {
