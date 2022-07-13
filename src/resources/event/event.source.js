@@ -2,7 +2,7 @@ const { RESTDataSource } = require('apollo-datasource-rest');
 // load configuration based on .env file, cli arguments and default values.
 const config = require('../../config');
 
-const { apiEs, apiEsKey, es2vt } = config;
+const { apiEs, apiEsKey, es2vt, apiDownloads } = config;
 const urlSizeLimit = 2000; // use GET for requests that serialized is less than N characters
 
 
@@ -29,7 +29,7 @@ class EventAPI extends RESTDataSource {
 
   async getArchive(datasetKey){
     try {
-      let response = await this.get('https://0xqgr7u0bh.execute-api.ap-southeast-2.amazonaws.com/event/dataset/' + datasetKey, {signal: this.context.abortController.signal});
+      let response = await this.get(apiDownloads + '/event/dataset/' + datasetKey, {signal: this.context.abortController.signal});
       // map to support APIv1 naming
       return response;
     } catch (err) {
