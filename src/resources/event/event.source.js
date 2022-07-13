@@ -34,7 +34,6 @@ class EventAPI extends RESTDataSource {
       // map to support APIv1 naming
       return response;
     } catch (err) {
-      console.log(err);
       return {
         url: null,
         fileSizeInMB: null,
