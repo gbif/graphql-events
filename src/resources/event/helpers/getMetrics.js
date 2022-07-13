@@ -96,17 +96,31 @@ const getOccurrenceFacet = (field) =>
  * @param {String} field
  */
 const getTemporal = (field) =>
-    (parent, { size = 30, include }, { dataSources }) => {
+    (parent, { size = 30, from = 0 }, { dataSources }) => {
         // generate the event search facet query, by inherting from the parent query, and map limit/offset to facet equivalents
         const query = {
             predicate: parent._predicate,
             size: 0,
             metrics: {
                 facet: {
-                    type: 'subfacet',
+                    type: 'facet',
                     key: field,
                     size: size,
-                    include: include
+                    from: from,
+                    metrics: {
+                      year_facet: {
+                          type: 'facet',
+                          key: 'year',
+                          order: 'TERM_ASC',
+                          metrics: {
+                            month_facet: {
+                                  type: 'facet',
+                                  key: 'month',
+                                  order: 'TERM_ASC'
+                              }
+                          }
+                      }
+                  }
                 },
                 cardinality: {
                     type: 'cardinality',

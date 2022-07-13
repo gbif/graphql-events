@@ -143,7 +143,7 @@ const typeDef = gql`
   
   type EventTemporal {
     datasetKey(size: Int, include: String): EventTemporalCardinalityResult
-    locationID(size: Int, include: String): EventTemporalCardinalityResult
+    locationID(size: Int, from: Int, include: String): EventTemporalCardinalityResult
   }  
   
   type EventTemporalCardinalityResult {
