@@ -94,6 +94,10 @@ const typeDef = gql`
     eventTypeHierarchyJoined: String
     eventHierarchyLevels: Int
     locationID: String
+    """
+    get dataset information via EML
+    """
+    dataset: JSON!
   }
 
   type EventType {
