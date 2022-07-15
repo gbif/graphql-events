@@ -42,7 +42,7 @@ class EventAPI extends RESTDataSource {
     }
   }
 
-  async searchEvents({ query }) {
+  searchEvents = async ({ query }) => {
     const body = { ...query, includeMeta: true };
     let response;
     if (JSON.stringify(body).length < urlSizeLimit) {
@@ -58,7 +58,7 @@ class EventAPI extends RESTDataSource {
     return response;
   }
 
-  async searchOccurrences({ query }) {
+  searchOccurrences = async ({ query }) => {
     const body = { ...query, includeMeta: true };
     let response;
     if (JSON.stringify(body).length < urlSizeLimit) {

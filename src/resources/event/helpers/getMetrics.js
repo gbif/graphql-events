@@ -200,11 +200,10 @@ const getStats = (field) =>
 * Given a string (field name) then generate a query and map the result
 * @param {String} field 
 */
-const getCardinality = (field) =>
-  (parent, { precision_threshold = 10000 }, { dataSources }) => {
+const getCardinality = (predicate, { precision_threshold = 10000 }, { searchApi, field }) => {
     // generate the event search facet query, by inherting from the parent query, and map limit/offset to facet equivalents
     const query = {
-      predicate: parent._predicate,
+      predicate,
       size: 0,
       metrics: {
         cardinality: {
@@ -215,7 +214,8 @@ const getCardinality = (field) =>
       }
     };
     // query the API, and throw away anything but the facet counts
-    return dataSources.eventAPI.searchEvents({ query })
+    // return searchApi({ query })
+    return searchApi({ query })
       .then(data => data.aggregations.cardinality.value);
   }
 

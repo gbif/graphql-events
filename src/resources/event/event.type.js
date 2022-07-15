@@ -32,6 +32,12 @@ const typeDef = gql`
     Get number of occurrences matching this search
     """        
     occurrenceCount: Int
+    
+    """
+    Get number of distinct values for a field. E.g. how many distinct datasetKeys in this result set
+    """
+    cardinality: EventCardinality
+
     """
     Get number of events per distinct values in a field. E.g. how many events per year.
     """
@@ -98,6 +104,10 @@ const typeDef = gql`
     get dataset information via EML
     """
     dataset: JSON!
+    """
+    Get number of distinct species for this event and its children
+    """
+    speciesCount: Int!
   }
 
   type EventType {
@@ -137,6 +147,7 @@ const typeDef = gql`
     order(size: Int, include: String): [OccurrenceFacetResult_string]
     family(size: Int, include: String): [OccurrenceFacetResult_string]
     genus(size: Int, include: String): [OccurrenceFacetResult_string]
+    species(size: Int, include: String): [OccurrenceFacetResult_string]
     samplingProtocol(size: Int, include: String): [OccurrenceFacetResult_string]
     locationID(size: Int, include: String): [OccurrenceFacetResult_string]
     basisOfRecord(size: Int, include: String): [OccurrenceFacetResult_string]
@@ -144,6 +155,11 @@ const typeDef = gql`
     recordedBy(size: Int, include: String): [OccurrenceFacetResult_string]
     recordedById(size: Int, include: String): [OccurrenceFacetResult_string]
   }  
+
+  type EventCardinality {
+    species: Int!
+    datasetKey: Int!
+  }
   
   type EventTemporal {
     datasetKey(size: Int, include: String): EventTemporalCardinalityResult

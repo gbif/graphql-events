@@ -8,6 +8,7 @@ module.exports = [
   'order',
   'family',
   'genus',
+  'species',
   'locationID',
   'basisOfRecord',
   'recordedById',
