@@ -102,6 +102,7 @@ module.exports = {
   EventCardinality: {
     species: (parent, query, { dataSources }) => getCardinality(parent._predicate, query, { field: 'species', searchApi: dataSources.eventAPI.searchOccurrences }),
     datasetKey: (parent, query, { dataSources }) => getCardinality(parent._predicate, query, { field: 'datasetKey', searchApi: dataSources.eventAPI.searchEvents }),
+    locationID: (parent, query, { dataSources }) => getCardinality(parent._predicate, query, { field: 'locationID', searchApi: dataSources.eventAPI.searchEvents }),
   },
   EventStats,
   EventTemporal,

@@ -159,6 +159,7 @@ const typeDef = gql`
   type EventCardinality {
     species: Int!
     datasetKey: Int!
+    locationID: Int!
   }
   
   type EventTemporal {
