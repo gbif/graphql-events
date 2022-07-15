@@ -214,7 +214,6 @@ const getCardinality = (predicate, { precision_threshold = 10000 }, { searchApi,
       }
     };
     // query the API, and throw away anything but the facet counts
-    // return searchApi({ query })
     return searchApi({ query })
       .then(data => data.aggregations.cardinality.value);
   }
