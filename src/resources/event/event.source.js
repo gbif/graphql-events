@@ -1,3 +1,5 @@
+const _ = require('lodash');
+const get = _.get;
 const { RESTDataSource } = require('apollo-datasource-rest');
 const xml2js = require('xml2js');
 // load configuration based on .env file, cli arguments and default values.
@@ -82,8 +84,19 @@ class EventAPI extends RESTDataSource {
     var parser = new xml2js.Parser(/* options */);
     const url = config.datasetEml.replace('{datasetKey}', datasetKey)
     const xml = await this.get(url);
-    const datasetJson = parser.parseStringPromise(xml);
-    return datasetJson;
+    const datasetJson = await parser.parseStringPromise(xml);
+    const dataset = get(datasetJson, "['eml:eml'].dataset[0]");
+    const datasetCurrated = {
+      key: datasetKey,
+      title: get(dataset, 'title[0]._'),
+      description: get(dataset, 'abstract[0].para[0]'),
+    };
+
+    return datasetCurrated;
+    return {
+      dataset: datasetCurrated,
+      datasetJson
+    };
   }
 
   async getLocation({ locationID }){

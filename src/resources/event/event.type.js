@@ -224,6 +224,7 @@ const typeDef = gql`
 
   type EventStats {
     occurrenceCount: Stats!
+    year: Stats!
   }
   
   type DataArchive {
