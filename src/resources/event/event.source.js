@@ -89,13 +89,17 @@ class EventAPI extends RESTDataSource {
     const datasetCurrated = {
       key: datasetKey,
       title: get(dataset, 'title[0]._'),
-      description: get(dataset, 'abstract[0].para[0]'),
+      abstract: get(dataset, 'abstract[0].para[0]'),
+      purpose: get(dataset, 'purpose[0].para[0]'),
+      intellectualRights: get(dataset, 'intellectualRights[0].para[0]'),
+      methods: get(dataset, 'methods'),
+      contact: get(dataset, 'contact'),
     };
 
-    return datasetCurrated;
+    // return datasetCurrated;
     return {
-      dataset: datasetCurrated,
-      datasetJson
+      value: datasetCurrated,
+      raw: datasetJson
     };
   }
 
