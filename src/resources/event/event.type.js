@@ -88,6 +88,7 @@ const typeDef = gql`
     measurementOrFactTypes: [String]
     measurementOrFactCount: Int
     parentEvent: Event
+    measurementOrFacts: [Measurement]
     kingdoms: [String]
     phyla: [String]
     orders: [String]
@@ -108,6 +109,18 @@ const typeDef = gql`
     Get number of distinct species for this event and its children
     """
     speciesCount: Int!
+  }
+
+  type Measurement {
+     measurementID: String
+     measurementType: String
+     measurementValue: String
+     measurementUnit: String
+     measurementAccuracy: String
+     measurementDeterminedBy: String
+     measurementDeterminedDate: String
+     measurementMethod: String
+     measurementRemarks: String
   }
 
   type EventType {
