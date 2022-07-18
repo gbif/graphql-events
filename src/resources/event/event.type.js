@@ -160,6 +160,7 @@ const typeDef = gql`
     species: Int!
     datasetKey: Int!
     locationID: Int!
+    parentEventID: Int!
   }
   
   type EventTemporal {
