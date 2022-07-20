@@ -150,6 +150,9 @@ const typeDef = gql`
     
     year(size: Int, from: Int): [EventFacetResult_float]
     month(size: Int, from: Int): [EventFacetResult_float]
+
+    eventType(size: Int include: String): [EventFacetResult_string]
+    scientificNames(size: Int include: String): [EventFacetResult_string]
   }
   
   type OccurrenceFacet {
@@ -167,6 +170,7 @@ const typeDef = gql`
     stateProvince(size: Int, include: String): [OccurrenceFacetResult_string]
     recordedBy(size: Int, include: String): [OccurrenceFacetResult_string]
     recordedById(size: Int, include: String): [OccurrenceFacetResult_string]
+    scientificNames(size: Int, include: String): [OccurrenceFacetResult_string]
   }  
 
   type EventCardinality {

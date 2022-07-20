@@ -26,7 +26,7 @@ class EventAPI extends RESTDataSource {
   }
 
   async searchOccurrenceDocuments({ query }) {
-    const response = await this. searchOccurrences({ query })
+    const response = await this.searchOccurrences({ query })
     return response.documents;
   }
 

@@ -17,5 +17,7 @@ module.exports = [
   'measurementOrFactTypes',
   'locationID',
   'year',
-  'month'
+  'month',
+  'eventType',
+  'scientificNames'
 ];

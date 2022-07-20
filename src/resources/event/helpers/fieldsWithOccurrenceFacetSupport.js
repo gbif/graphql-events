@@ -12,5 +12,6 @@ module.exports = [
   'locationID',
   'basisOfRecord',
   'recordedById',
-  'recordedBy'
+  'recordedBy',
+  'scientificNames'
 ];
