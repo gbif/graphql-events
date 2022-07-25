@@ -13,5 +13,7 @@ module.exports = [
   'basisOfRecord',
   'recordedById',
   'recordedBy',
-  'scientificNames'
+  'scientificNames',
+  'month',
+  'year'
 ];

@@ -109,6 +109,13 @@ const typeDef = gql`
     Get number of distinct species for this event and its children
     """
     speciesCount: Int!
+    wktConvexHull: String
+    temporalCoverage: TemporalCoverage
+  }
+
+  type TemporalCoverage {
+    gte: String
+    lte: String
   }
 
   type Measurement {
@@ -171,6 +178,8 @@ const typeDef = gql`
     recordedBy(size: Int, include: String): [OccurrenceFacetResult_string]
     recordedById(size: Int, include: String): [OccurrenceFacetResult_string]
     scientificNames(size: Int, include: String): [OccurrenceFacetResult_string]
+    month(size: Int, include: String): [OccurrenceFacetResult_string]
+    year(size: Int, include: String): [OccurrenceFacetResult_string]
   }  
 
   type EventCardinality {
