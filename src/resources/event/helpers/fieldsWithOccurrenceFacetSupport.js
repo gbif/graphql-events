@@ -15,5 +15,9 @@ module.exports = [
   'recordedBy',
   'scientificNames',
   'month',
-  'year'
+  'year',
+  'eventTypeHierarchy',
+  'eventTypeHierarchyJoined',
+  'eventHierarchy',
+  'eventHierarchyJoined'
 ];

@@ -181,6 +181,11 @@ const typeDef = gql`
     scientificNames(size: Int, include: String): [OccurrenceFacetResult_string]
     month(size: Int, include: String): [OccurrenceFacetResult_string]
     year(size: Int, include: String): [OccurrenceFacetResult_string]
+    
+    eventHierarchyJoined(size: Int, include: String): [OccurrenceFacetResult_string]
+    eventHierarchy(size: Int, include: String): [OccurrenceFacetResult_string]
+    eventTypeHierarchyJoined(size: Int, include: String): [OccurrenceFacetResult_string]
+    eventTypeHierarchy(size: Int, include: String): [OccurrenceFacetResult_string]    
   }  
 
   type EventCardinality {
