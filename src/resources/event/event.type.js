@@ -65,6 +65,7 @@ const typeDef = gql`
     eventID: String
     type:String
     eventType: EventType
+    eventName: String
     parentEventID: String    
     datasetKey: String
     locality: String
