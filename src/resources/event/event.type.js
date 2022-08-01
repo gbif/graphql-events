@@ -178,6 +178,8 @@ const typeDef = gql`
     stateProvince(size: Int, include: String): [OccurrenceFacetResult_string]
     recordedBy(size: Int, include: String): [OccurrenceFacetResult_string]
     recordedById(size: Int, include: String): [OccurrenceFacetResult_string]
+    identifiedBy(size: Int, include: String): [OccurrenceFacetResult_string]
+    identifiedById(size: Int, include: String): [OccurrenceFacetResult_string]    
     scientificNames(size: Int, include: String): [OccurrenceFacetResult_string]
     month(size: Int, include: String): [OccurrenceFacetResult_string]
     year(size: Int, include: String): [OccurrenceFacetResult_string]

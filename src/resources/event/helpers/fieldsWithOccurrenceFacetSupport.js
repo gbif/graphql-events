@@ -19,5 +19,7 @@ module.exports = [
   'eventTypeHierarchy',
   'eventTypeHierarchyJoined',
   'eventHierarchy',
-  'eventHierarchyJoined'
+  'eventHierarchyJoined',
+  'identifiedBy',
+  'identifiedById'
 ];
