@@ -86,7 +86,8 @@ class EventAPI extends RESTDataSource {
     const xml = await this.get(url);
     const datasetJson = await parser.parseStringPromise(xml);
     const dataset = get(datasetJson, "['eml:eml'].dataset[0]");
-    const datasetCurrated = {
+    const additionalMetadata = get(datasetJson, "['eml:eml'].additionalMetadata[0]");
+    const datasetCurated = {
       key: datasetKey,
       title: get(dataset, 'title[0]._'),
       abstract: get(dataset, 'abstract[0].para[0]'),
@@ -94,11 +95,13 @@ class EventAPI extends RESTDataSource {
       intellectualRights: get(dataset, 'intellectualRights[0].para[0]'),
       methods: get(dataset, 'methods'),
       contact: get(dataset, 'contact'),
+      citation: get(additionalMetadata, 'metadata[0].gbif[0].citation'),
+      rights: get(additionalMetadata, 'metadata[0].gbif[0].rights')
     };
 
     // return datasetCurrated;
     return {
-      value: datasetCurrated,
+      value: datasetCurated,
       raw: datasetJson
     };
   }
